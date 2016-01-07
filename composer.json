@@ -1,0 +1,14 @@
+{
+    "name": "solarcms/table-manager",
+    "description": "Solar CMS table manager",
+    "type": "Library",
+    "license": "ISC",
+    "authors": [
+        {
+            "name": "Tseegii Tselmeg",
+            "email": "tseegii.it@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
