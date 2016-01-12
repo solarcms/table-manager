@@ -9,7 +9,7 @@
             <li class="nav-item">
                 <a class="nav-link p-r b-r" ui-fullscreen="">
                     <span>
-                        <i class="fa fa-expand"></i>
+                        <i class="material-icons">&#xE5D0;</i>
                     </span>
                 </a>
             </li>
@@ -33,7 +33,7 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link p-l b-l" href="" data-toggle="dropdown">
-                    <i class="icon-options-vertical icon"></i>
+                    <i class="material-icons i20">&#xE5D4;</i>
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-scale pull-right text-color"

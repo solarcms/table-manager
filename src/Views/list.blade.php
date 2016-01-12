@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+
     <div class="app-body" id="view">
         <div class="app-body-inner">
 
@@ -17,15 +18,18 @@
                     @include('XTheme::_partials.setting_panel')
                 </div>
 
-                <div class="col-sm-9 col-md-10 map-outer-wrapper">
-                    @include('TableManager::_partials.tm_header')
-                    <div class="p-a-md">
-                        <div id="root"></div>
-                    </div>
+                <div class="col-sm-9 col-md-10 map-outer-wrapper p-a-md">
+                    {{--@include('TableManager::_partials.tm_header')--}}
+                    <div id="tm"></div>
+                    <br />
+                    <div id="btn"></div>
+                    <br>
+                    <div id="slider"></div>
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
 
 @section('script')

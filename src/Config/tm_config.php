@@ -7,5 +7,9 @@
  */
 
 return [
-    'tm_debug' => true
+    'tm_debug' => true,
+    'exclude' => [
+        'migrations',
+        'password_resets'
+    ]
 ];

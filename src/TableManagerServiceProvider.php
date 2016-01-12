@@ -24,10 +24,15 @@ class TableManagerServiceProvider extends ServiceProvider
         // Route
         include __DIR__ . DIRECTORY_SEPARATOR . 'routes.php';
 
-        // For publishin config file
+        // For publishing config file
         $this->publishes([
             __DIR__.'/Config/tm_config.php' => config_path('tm_config.php'),
         ], 'tmconfig');
+
+        // For publishing migrations
+        $this->publishes([
+            __DIR__. DIRECTORY_SEPARATOR . 'Migrations' => base_path('database' . DIRECTORY_SEPARATOR . 'migrations')
+        ], 'tmmigrate');
 
         // For publishing assets
         $this->publishes([
