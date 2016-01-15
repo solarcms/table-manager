@@ -2,14 +2,14 @@
  * Created by n0m4dz on 1/10/16.
  */
 import React, {Component, PropTypes} from 'react'
-import $ from 'jquery';
 
-import * as DataActions from '../actions/index'
+import * as DataActions from '../actions/tableActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {getTables, addTable} from '../api/'
+import {getTables, addTable, getTableProps, removeTable} from '../api/tableApi'
 
+//Components
 import Header from '../components/tables/Header'
 import TableItem from '../components/tables/TableItem.js';
 import TableModal from '../components/tables/TableModal';
@@ -17,14 +17,13 @@ import TableModal from '../components/tables/TableModal';
 
 //import createStore from '../lib/createStore';
 //const store = createStore();
-
-
 class TableContainer extends Component {
 
     constructor() {
         super();
     }
 
+    //Modal
     getTableList() {
         getTables().then((data)=> {
             this.props.actions.getTable(data);
@@ -32,18 +31,32 @@ class TableContainer extends Component {
     }
 
     addTable(tables) {
-        console.log('bla bla bla');
         addTable(tables).then((data) => {
             console.log(data)
         });
     }
 
+    removeTable(id) {
+        removeTable(id).then((data) => {
+            console.log(data);
+        });
+    }
+
+    //List
+    handleTableProps() {
+        getTableProps().then((data)=> {
+            console.log(data);
+            this.props.actions.getTableProps(data);
+        });
+    }
+
     componentWillMount() {
+        this.handleTableProps();
         this.getTableList();
     }
 
     render() {
-        const { tables, modalFormData } = this.props;
+        const { tables, tableProps, modalFormData } = this.props;
 
         return (
             <div>
@@ -68,29 +81,31 @@ class TableContainer extends Component {
                                         </div>
                                     </th>
                                     <th>Form type</th>
+                                    <th><i className="material-icons">&#xE5D3;</i></th>
                                 </tr>
                                 </thead>
-                                <TableItem list={tables}></TableItem>
+                                <TableItem removeHandler={this.removeTable.bind(this)} list={tableProps}></TableItem>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <TableModal list={tables} tableHandler={this.addTable.bind()}></TableModal>
-
+                <TableModal list={tables} tableHandler={this.addTable.bind(this)}></TableModal>
             </div>
         )
     }
 }
 
 TableContainer.defaultProps = {
-    tableList: []
+    tables: [],
+    tableProps: []
 }
 
 function mapStateToProps(state) {
     const TableStore = state.TableStore;
     return {
-        tables: TableStore.get('tables').toJS()
+        tables: TableStore.get('tables').toJS(),
+        tableProps: TableStore.get('tableProps').toJS()
     }
 }
 

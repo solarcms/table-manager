@@ -12,18 +12,19 @@ class TableModal extends React.Component {
     constructor() {
         super();
         this.checkedList = [];
+        this.tableList = [];
     }
 
     checkHandler(o) {
         if (o.target.checked) {
             this.checkedList.push(o.target.value);
-        }else{
+        } else {
             var index = this.checkedList.indexOf(o.target.value);
             this.checkedList.splice(index, 1);
         }
     }
 
-    addTables(e){
+    addTables(e) {
         this.props.tableHandler(this.checkedList);
     }
 
@@ -35,7 +36,8 @@ class TableModal extends React.Component {
                     <td>
                         <form action="">
                             <label className="md-check">
-                                <input type="checkbox" defaultChecked={false} value={data} onChange={this.checkHandler.bind(this)}/>
+                                <input type="checkbox" defaultChecked={false} value={data}
+                                       onChange={this.checkHandler.bind(this)}/>
                                 <i className="cyan"></i>
                             </label>
                         </form>
@@ -58,7 +60,7 @@ class TableModal extends React.Component {
                                             <input type="text" className="form-control p-x b-a rounded"
                                                    placeholder="Search tables..."/>
                                                         <span className="input-group-btn">
-                                                            <button type="submit"
+                                                            <button type="button"
                                                                     className="btn white b-a rounded no-b-l no-shadow">
                                                                 <i className="material-icons">&#xE8B6;</i>
                                                             </button>

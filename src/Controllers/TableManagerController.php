@@ -27,8 +27,17 @@ class TableManagerController extends Controller
     public function getTables()
     {
         $tables = DB::select(DB::raw('SHOW TABLES'));
-        $tableArr = [];
+
         $excludeArr = Config::get('tm_config.exclude');
+        $alreadyTables = DB::table('solar_tables')->select('name')->get();
+
+        foreach ($alreadyTables as $table) {
+            array_push($excludeArr, $table->name);
+        }
+
+        $tableArr = [];
+
+
         foreach ($tables as $table) {
             $table = get_object_vars($table);
             $value = array_pop($table);
@@ -39,28 +48,47 @@ class TableManagerController extends Controller
         return response()->json($tableArr);
     }
 
-    public function addTable(Request $request){
+    public function addTable(Request $request)
+    {
 
         $table = [];
 
-        $permission = [
+        $permission = json_encode([
             'c' => false,
             'r' => false,
             'u' => false,
             'd' => false,
-        ];
+        ]);
         $form_type = 'page';
 
         $data = $request->input('data');
 
-        for($i = 0; $i<count($data); $i++){
-            echo $data[$i] ."\n";
+        for ($i = 0; $i < count($data); $i++) {
+            DB::table('solar_tables')->insert([
+                'name' => $data[$i],
+                'permission' => $permission,
+                'form_type' => $form_type
+            ]);
         }
     }
 
-    public function getEnabledTables(){
+    public function removeTable($id)
+    {
+        $r = DB::table('solar_tables')->where('id', $id)->delete();
+        if ($r) {
+            return response()->json(['status' => true]);
+        } else {
+            return response()->json(['status' => false]);
+        }
+    }
+
+    public function getTablesProps()
+    {
         $tables = DB::table('solar_tables')->get();
-        dump($tables);
+        foreach ($tables as $table) {
+            $table->permission = json_decode($table->permission);
+        }
+        return response()->json($tables);
     }
 
 

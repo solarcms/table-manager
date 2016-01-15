@@ -3,6 +3,13 @@
  */
 import React from 'react'
 
+import {bindActionCreators} from 'redux'
+import {connect} from 'react-redux'
+
+import {getTables, addTable, getTableProps, removeTable} from '../api/fieldApi'
+
+
+
 class FieldContainer extends React.Component{
     render(){
         return(

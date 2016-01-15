@@ -1,5 +1,5 @@
 /**
- * Created by n0m4dz on 1/10/16.
+ * Created by n0m4dz on 1/16/16.
  */
 import $ from 'jquery';
 
@@ -17,17 +17,4 @@ export function postResuest(url, data) {
         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
         data:data
     })
-}
-
-
-export function getTables(){
-    return getRequest('tables');
-}
-
-export function addTable(tables){
-    return postResuest('tables/add', {'data' : tables});
-}
-
-export function setTableProps(data){
-    return "Aaa"
 }

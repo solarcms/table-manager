@@ -3,8 +3,19 @@
  */
 import React from 'react';
 
-class Field extends React.Component{
-    render(){
-
+class Field extends React.Component {
+    render() {
+        <tbody>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tbody>
     }
 }

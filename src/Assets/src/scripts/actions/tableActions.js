@@ -1,7 +1,7 @@
 /**
  * Created by n0m4dz on 1/10/16.
  */
-import {getTables} from '../api/'
+import {getTables} from '../api/tableApi'
 import * as ActionTypes from '../constants/ActionTypes'
 
 export function getTable(data) {
@@ -18,10 +18,25 @@ export function addTable(tables){
     }
 }
 
+export function removeTable(data){
+    return{
+        type:ActionTypes.REMOVE_TABLE,
+        data
+    }
+}
+
+export function getTableProps(data){
+    return {
+        type: ActionTypes.GET_TABLE_PROPS,
+        data
+    }
+}
+
 export function setTableProps(data){
     return {
         type: ActionTypes.SET_TABLE_PROPS,
         data
     }
 }
+
 
