@@ -6,3 +6,7 @@ import {getRequest, postRequest} from './ajaxService'
 export function getFields(tableName){
     return getRequest('fields/' + tableName);
 }
+
+export function setFieldProps(data){
+    return postRequest('columns/update', {data: data});
+}

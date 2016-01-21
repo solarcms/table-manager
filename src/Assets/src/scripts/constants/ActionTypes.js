@@ -23,5 +23,4 @@ export const SAVE_TABLE_PROPS = 'SAVE_TABLE_PROPS';
  * Fields
  */
 export const GET_FIELDS = 'GET_FIELDS';
-export const UPDATE_FIELDS = 'UPDATE_FIELDS';
-export const SAVE_FIELD_PROPS = 'UPDATE_FIELD_PROPS';
+export const UPDATE_FIELD_PROPS = 'UPDATE_FIELD_PROPS';

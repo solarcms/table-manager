@@ -35,7 +35,6 @@ export default createReducer(initialState, {
     },
 
     [ActionTypes.UPDATE_TYPE_PROPS](state, {index, value}){
-        console.log(index + ' - ' + value);
         var item = state.getIn(['tableProps', index]);
         var itemObj = item.toJS();
         itemObj.form_type = value;

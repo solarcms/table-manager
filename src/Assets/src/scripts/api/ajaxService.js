@@ -10,7 +10,7 @@ export function getRequest(url){
     })
 }
 
-export function postResuest(url, data) {
+export function postRequest(url, data) {
     return $.ajax({
         url: url,
         type: 'POST',

@@ -138,12 +138,6 @@ class TableManagerController extends Controller
         if ($table === false) {
             return response()->json(['status' => false, 'msg' => 'no table selected']);
         } else {
-//            if (Schema::hasTable($table)) {
-//                $columns = Schema::getColumnListing($table);
-//                return response()->json($columns);
-//            } else {
-//                return response()->json(['status' => false, 'msg' => 'table is not existed']);
-//            }
             $columns = DB::table('solar_table_columns')->where('table', $table)->get();
             return response()->json($columns);
 
@@ -154,9 +148,25 @@ class TableManagerController extends Controller
     /**
      * @param Request $request
      */
-    public function updateFields(Request $request)
+    public function updateColumns(Request $request)
     {
+        $columns = $request->input('data');
+//        print_r($columns);
+        foreach ($columns as $c) {
+            DB::table('solar_table_columns')->where('table', $c['table'])->where('column', $c['column'])->update([
+                'column_type' => $c['column_type'],
+                'validation' => json_encode($c['validation']),
+                'default_value' => $c['default_value'],
+                'is_translatable' => $this->getBool($c['is_translatable']),
+                'is_filter' => $this->getBool($c['is_filter']),
+                'is_sortable' => $this->getBool($c['is_sortable']),
+                'is_grid_fixed' => $this->getBool($c['is_grid_fixed']),
+                'is_grid_enabled' => $this->getBool($c['is_grid_enabled']),
+                'is_form_enabled' => $this->getBool($c['is_form_enabled'])
+            ]);
+        }
 
+        return response()->json(['status' => true ]);
     }
 
     /**
@@ -165,7 +175,7 @@ class TableManagerController extends Controller
      */
     public function getBool($boolStr)
     {
-        if ($boolStr == 'true') {
+        if ($boolStr == 'true' || $boolStr == 1) {
             return true;
         } else {
             return false;

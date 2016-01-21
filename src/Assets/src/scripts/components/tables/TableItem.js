@@ -26,7 +26,6 @@ class TableItem extends React.Component {
         var index = e.target.getAttribute('data-index');
         var value = e.target.value;
         this.props.updateTypeHandler(index, value);
-
     }
 
     deleteItem(id) {

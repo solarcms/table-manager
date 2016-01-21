@@ -1,14 +1,14 @@
 /**
  * Created by n0m4dz on 1/10/16.
  */
-import {getRequest, postResuest} from './ajaxService';
+import {getRequest, postRequest} from './ajaxService';
 
 export function getTables(){
     return getRequest('tables');
 }
 
 export function addTable(tables){
-    return postResuest('tables/add', {'data' : tables});
+    return postRequest('tables/add', {'data' : tables});
 }
 
 export function removeTable(id){
@@ -20,5 +20,5 @@ export function getTableProps(){
 }
 
 export function setTableProps(data){
-    return postResuest('solartables/setprops', {'data': data})
+    return postRequest('solartables/setprops', {'data': data})
 }

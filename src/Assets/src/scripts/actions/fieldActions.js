@@ -10,3 +10,12 @@ export function getFields(data) {
         data
     }
 }
+
+export function updateFieldProps(index, key, value) {
+    return {
+        type: ActionTypes.UPDATE_FIELD_PROPS,
+        index: index,
+        key: key,
+        value: value
+    }
+}

@@ -16,5 +16,6 @@ Route::group([
     Route::post('solartables/setprops', ['as' => 'table.solar.setprops', 'uses' => 'TableManagerController@setTableProps']);
 
 
-    Route::get('fields/{table}', ['as' => 'tables', 'uses' => 'TableManagerController@getFields']);
+    Route::get('fields/{table}', ['as' => 'columns', 'uses' => 'TableManagerController@getFields']);
+    Route::post('columns/update', ['as' => 'columns.update', 'uses' => 'TableManagerController@updateColumns']);
 });

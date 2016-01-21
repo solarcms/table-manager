@@ -7,35 +7,47 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
 import * as DataActions from '../actions/fieldActions'
-import {getFields} from '../api/fieldApi'
+import {getFields, setFieldProps} from '../api/fieldApi'
 
 import Field from '../components/fields/Field'
+import Header from '../components/fields/Header'
 
-class FieldContainer extends React.Component{
+class FieldContainer extends React.Component {
 
-    constructor(){
+    constructor() {
         super();
     }
 
-    getFields(tableName){
+    getFields(tableName) {
         getFields(tableName).then((data) => {
             this.props.actions.getFields(data);
         })
     }
 
-    componentWillMount(){
-        let tableName = this.props.params.name;
+    updateProps(index, key, value) {
+        this.props.actions.updateFieldProps(index, key, value)
+    }
 
+    saveProps(){
+        setFieldProps(this.props.fields).then((data) => {
+           if(data.status){
+               alert('updated successfully');
+           }
+        });
+    }
+
+    componentWillMount() {
+        let tableName = this.props.params.name;
         this.getFields(tableName);
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div>
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="m-b">
-                            asdas
+                            <Header saveHandler={this.saveProps.bind(this)}></Header>
                         </div>
 
                         <div className="box box-shadow-z1">
@@ -58,7 +70,9 @@ class FieldContainer extends React.Component{
                                 </tr>
                                 </thead>
 
-                                <Field fields = {this.props.fields}></Field>
+                                <Field fields={this.props.fields}
+                                       updateHandler={this.updateProps.bind(this)}
+                                ></Field>
 
                             </table>
                         </div>
