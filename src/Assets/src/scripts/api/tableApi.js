@@ -20,5 +20,5 @@ export function getTableProps(){
 }
 
 export function setTableProps(data){
-    return "Aaa"
+    return postResuest('solartables/setprops', {'data': data})
 }

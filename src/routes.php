@@ -13,6 +13,7 @@ Route::group([
     Route::get('table/remove/{id}', ['as' => 'table.add', 'uses' => 'TableManagerController@removeTable']);
 
     Route::get('solartables', ['as' => 'tables.solar', 'uses' => 'TableManagerController@getTablesProps']);
+    Route::post('solartables/setprops', ['as' => 'table.solar.setprops', 'uses' => 'TableManagerController@setTableProps']);
 
 
     Route::get('fields/{table}', ['as' => 'tables', 'uses' => 'TableManagerController@getFields']);

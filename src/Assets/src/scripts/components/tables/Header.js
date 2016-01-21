@@ -5,7 +5,13 @@ import React from 'react';
 
 export default class Header extends React.Component {
 
+    setProps(){
+        this.props.saveHandler();
+    }
+
     render() {
+       const {saveHandler} = this.props;
+
         return (
             <div className="white box-shadow-z1 b-b">
                 <div className="navbar">
@@ -33,7 +39,7 @@ export default class Header extends React.Component {
                             </a>
                         </li>
                         <li className="nav-item dropdown">
-                            <a className="nav-link p-l b-l">
+                            <a className="nav-link p-l b-l" onClick={this.setProps.bind(this)}>
                                 <i className="material-icons">&#xE161;</i>
                             </a>
                         </li>

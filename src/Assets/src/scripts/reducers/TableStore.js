@@ -24,6 +24,24 @@ export default createReducer(initialState, {
     [ActionTypes.REMOVE_TABLE](state, {data}){
         state = state.set('tableProps', Immutable.fromJS(data));
         return state;
+    },
+
+    [ActionTypes.UPDATE_TABLE_PROPS](state, {index, key, value}){
+        var item = state.getIn(['tableProps', index]);
+        var itemObj = item.toJS();
+        itemObj.permission[key] = value;
+        state = state.setIn(['tableProps', index], Immutable.fromJS(itemObj));
+        return state;
+    },
+
+    [ActionTypes.UPDATE_TYPE_PROPS](state, {index, value}){
+        console.log(index + ' - ' + value);
+        var item = state.getIn(['tableProps', index]);
+        var itemObj = item.toJS();
+        itemObj.form_type = value;
+        state = state.setIn(['tableProps', index], Immutable.fromJS(itemObj));
+        console.log(state.toJS());
+        return state;
     }
 });
 

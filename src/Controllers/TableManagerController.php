@@ -52,7 +52,7 @@ class TableManagerController extends Controller
     {
 
         $table = [];
-
+        //Setting table defaults
         $permission = json_encode([
             'c' => false,
             'r' => false,
@@ -69,13 +69,31 @@ class TableManagerController extends Controller
                 'permission' => $permission,
                 'form_type' => $form_type
             ]);
+
+
+            //Setting field defaults
+            $columns = Schema::getColumnListing($data[$i]);
+
+            foreach ($columns as $c) {
+                $parent = $data[$i];
+                DB::table('solar_table_columns')->insert([
+                    'table' => $parent,
+                    'column' => $c
+                ]);
+            }
         }
+
+        return response()->json(['status' => true]);
     }
 
     public function removeTable($id)
     {
+        $table = DB::table('solar_tables')->where('id', $id)->get();
+        $table = $table[0]->name;
+
         $r = DB::table('solar_tables')->where('id', $id)->delete();
         if ($r) {
+            DB::table('solar_table_columns')->where('table', $table)->delete();
             return response()->json(['status' => true]);
         } else {
             return response()->json(['status' => false]);
@@ -91,6 +109,25 @@ class TableManagerController extends Controller
         return response()->json($tables);
     }
 
+    public function setTableProps(Request $request)
+    {
+        $tables = $request->input('data');
+        foreach ($tables as $t) {
+            $permission = json_encode([
+                'c' => $this->getBool($t['permission']['c']),
+                'r' => $this->getBool($t['permission']['r']),
+                'u' => $this->getBool($t['permission']['u']),
+                'd' => $this->getBool($t['permission']['d'])
+            ]);
+
+            DB::table('solar_tables')->where('id', $t['id'])->update([
+                'permission' => $permission,
+                'form_type' => $t['form_type']
+            ]);
+        }
+        return response()->json(['status' => true]);
+    }
+
 
     /**
      * @param string $table name
@@ -101,12 +138,37 @@ class TableManagerController extends Controller
         if ($table === false) {
             return response()->json(['status' => false, 'msg' => 'no table selected']);
         } else {
-            if (Schema::hasTable($table)) {
-                $columns = Schema::getColumnListing($table);
-                return response()->json($columns);
-            } else {
-                return response()->json(['status' => false, 'msg' => 'table is not existed']);
-            }
+//            if (Schema::hasTable($table)) {
+//                $columns = Schema::getColumnListing($table);
+//                return response()->json($columns);
+//            } else {
+//                return response()->json(['status' => false, 'msg' => 'table is not existed']);
+//            }
+            $columns = DB::table('solar_table_columns')->where('table', $table)->get();
+            return response()->json($columns);
+
+        }
+    }
+
+
+    /**
+     * @param Request $request
+     */
+    public function updateFields(Request $request)
+    {
+
+    }
+
+    /**
+     * @param $boolStr
+     * @return bool
+     */
+    public function getBool($boolStr)
+    {
+        if ($boolStr == 'true') {
+            return true;
+        } else {
+            return false;
         }
     }
 

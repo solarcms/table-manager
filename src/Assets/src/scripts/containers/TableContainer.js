@@ -7,16 +7,13 @@ import * as DataActions from '../actions/tableActions'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {getTables, addTable, getTableProps, removeTable} from '../api/tableApi'
+import {getTables, addTable, getTableProps, removeTable, setTableProps} from '../api/tableApi'
 
 //Components
 import Header from '../components/tables/Header'
 import TableItem from '../components/tables/TableItem.js';
 import TableModal from '../components/tables/TableModal';
 
-
-//import createStore from '../lib/createStore';
-//const store = createStore();
 class TableContainer extends Component {
 
     constructor() {
@@ -32,26 +29,47 @@ class TableContainer extends Component {
 
     addTable(tables) {
         addTable(tables).then((data) => {
-            console.log(data)
+            if(data.status){
+                location.reload();
+            }
         });
     }
 
     removeTable(id) {
         removeTable(id).then((data) => {
             console.log(data);
+            if(data.status){
+                location.reload();
+            }
         });
     }
 
     //List
-    handleTableProps() {
+    getTableProps() {
         getTableProps().then((data)=> {
             console.log(data);
             this.props.actions.getTableProps(data);
         });
     }
 
+    updateProps(index, key, value) {
+        this.props.actions.updateTableProps(index, key, value)
+    }
+
+    updateTypeProps(index, value){
+        this.props.actions.updateTypeProps(index, value)
+    }
+
+    saveProps() {
+        setTableProps(this.props.tableProps).then((data) => {
+            if(data.status){
+                alert("updated successfully");
+            }
+        })
+    }
+
     componentWillMount() {
-        this.handleTableProps();
+        this.getTableProps();
         this.getTableList();
     }
 
@@ -63,7 +81,7 @@ class TableContainer extends Component {
                 <div className="row">
                     <div className="col-sm-12 col-md-10 col-lg-8">
                         <div className="m-b">
-                            <Header></Header>
+                            <Header saveHandler={this.saveProps.bind(this)}></Header>
                         </div>
 
                         <div className="box box-shadow-z1">
@@ -84,7 +102,10 @@ class TableContainer extends Component {
                                     <th><i className="material-icons">&#xE5D3;</i></th>
                                 </tr>
                                 </thead>
-                                <TableItem removeHandler={this.removeTable.bind(this)} list={tableProps}></TableItem>
+                                <TableItem removeHandler={this.removeTable.bind(this)}
+                                           updateHandler={this.updateProps.bind(this)}
+                                           updateTypeHandler={this.updateTypeProps.bind(this)}
+                                           list={tableProps}></TableItem>
                             </table>
                         </div>
                     </div>

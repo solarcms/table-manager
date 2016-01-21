@@ -6,11 +6,29 @@ import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {getTables, addTable, getTableProps, removeTable} from '../api/fieldApi'
+import * as DataActions from '../actions/fieldActions'
+import {getFields} from '../api/fieldApi'
 
-
+import Field from '../components/fields/Field'
 
 class FieldContainer extends React.Component{
+
+    constructor(){
+        super();
+    }
+
+    getFields(tableName){
+        getFields(tableName).then((data) => {
+            this.props.actions.getFields(data);
+        })
+    }
+
+    componentWillMount(){
+        let tableName = this.props.params.name;
+
+        this.getFields(tableName);
+    }
+
     render(){
         return(
             <div>
@@ -23,7 +41,8 @@ class FieldContainer extends React.Component{
                         <div className="box box-shadow-z1">
                             <table className="table table-bordered">
                                 <thead>
-                                <tr>
+                                <tr className="text-center">
+                                    <th>№</th>
                                     <th>Field</th>
                                     <th>
                                         Form type
@@ -38,9 +57,9 @@ class FieldContainer extends React.Component{
                                     <th>Filterable</th>
                                 </tr>
                                 </thead>
-                                <tbody>
 
-                                </tbody>
+                                <Field fields = {this.props.fields}></Field>
+
                             </table>
                         </div>
                     </div>
@@ -51,4 +70,26 @@ class FieldContainer extends React.Component{
     }
 }
 
-export default FieldContainer;
+FieldContainer.defaultProps = {
+    fields: [],
+    fieldProps: []
+}
+
+function mapStateToProps(state) {
+    const FieldStore = state.FieldStore;
+    return {
+        fields: FieldStore.get('fields').toJS(),
+        fieldProps: FieldStore.get('fieldProps').toJS()
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(DataActions, dispatch)
+    };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FieldContainer);

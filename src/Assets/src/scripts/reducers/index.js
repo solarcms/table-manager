@@ -3,4 +3,5 @@
  */
 
 export { default as TableStore } from './TableStore';
+export { default as FieldStore } from './FieldStore';
 
